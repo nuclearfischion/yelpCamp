@@ -1,0 +1,38 @@
+<% include partials/header %>
+
+<!-- css styles TODO: move to separate file -->
+<style>
+    body{
+        width: 100%;
+        height: 100vh;
+        background-image:
+                linear-gradient(
+                  rgba(0, 0, 0, 0.4), 
+                  rgba(0, 0, 0, 0.4)
+                ),
+            url("https://images.unsplash.com/photo-1535700601052-b90a78c466f5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f50a3776b0916ec81eac3ab6fc2d514c&auto=format&fit=crop&w=1340&q=80");
+        background-size: cover;
+    }
+    .jumbotron{
+        background: transparent;
+        color: white;
+    }
+    .bg-light, .navbar-light .navbar-nav .nav-link, .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-brand{
+        background: transparent !important;
+        color: white;
+    }
+    .navbar-light .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    }
+</style>
+
+<div class="jumbotron m-4">
+    <h1 class="display-2">YelpCamp</h1>
+    <p>
+        YelpCamp is designed and built based on the idea that it should be easy and elegant to find the perfect campsite.
+    </p>
+    <a class="btn btn-dark btn-large" href="/campgrounds">Discover More</a>
+
+</div>
+
+<% include partials/footer %>

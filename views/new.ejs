@@ -1,0 +1,31 @@
+<% include partials/header %>
+
+<div class="container">
+    <form action="/campgrounds" method="POST" >
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+        
+                <!-- Header -->
+                <h2>Add New Campground</h2>
+              
+                <!-- campground name -->
+                <label for="campName" class="text-left">Campground Name</label>
+                <input class="form-control form-group" id="campName" type="text" name="name" placeholder="Arbor Hills" >
+                
+              
+                <!-- Image -->
+                <label for="campPhoto">Campground Photo</label>
+                <input class="form-control form-group" id="campPhoto" type="text" name="image" placeholder="image.jpg">
+                
+                <!-- Submit button -->
+                <input class="btn btn-default btn-block form-group" type="submit">
+                <a href="/campgrounds">Go Back</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+
+<% include partials/footer %>

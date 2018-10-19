@@ -1,0 +1,74 @@
+<% include partials/header %>
+<script>
+    function deleteCampground(){
+        console.log("deleting campground");
+
+        $.ajax({
+            url: '/campgrounds/<%=campground._id%>',
+            type: 'DELETE',
+            success: function(result) {
+                window.location.href="/campgrounds";
+            }
+        });
+
+    }
+    
+    function saveChanges(){
+        console.log("saving edits");
+        
+        let campNameValue = document.getElementById("campName").value;
+        let campImageValue = document.getElementById("campImage").value;
+        let campDescriptionValue = document.getElementById("campDescription").value;
+        
+        let editedCampground = {name: campNameValue,
+                                image: campImageValue,
+                                description: campDescriptionValue};
+        
+        $.ajax({
+            url: '/campgrounds/<%=campground._id%>',
+            contentType: 'application/json',
+            data: JSON.stringify(editedCampground),
+            type: 'PUT',
+            success: function(result) {
+                window.location.href="/campgrounds";
+            }
+        });
+    }
+</script>
+
+<div class="container-fluid mt-4">
+    <div class="container">
+            <!-- Header -->
+            <h1>Edit Campground Details</h1>
+            
+            <!-- Edit Name -->
+            <div class="form-group">
+                <label for="campName">Name</label>
+                <input class="form-control form-group" id="campName" type="text" name="name" value="<%=campground.name%>" >
+                <button onclick="saveChanges()" class="btn btn-dark btn-large">Save Changes</button>
+            </div>
+            
+            <!-- Edit Image -->
+            <div class="form-group">
+                <div class="custom-file">
+                    <label class="custom-file-label" for="campImage">Image</label>
+                    <input class="custom-file-input mb-3" id="campImage" type="file" accept="/image/*" name="image" value="<%=campground.image%>" >
+                    <button onclick="saveChanges()" class="btn btn-dark btn-large">Save Changes</button>
+                </div>
+            </div>
+        
+            <!-- Edit Description -->
+            <div class="form-group">
+                <label for="campDescription">Description</label>
+                <input class="form-control" id="campDescription" type="text" name="description" value="<%=campground.description%>" >
+                <button onclick="saveChanges()" class="btn btn-dark btn-large">Save Changes</button>
+            </div>
+            
+    </div>
+    <div class="container mt-4">
+        <button onclick="deleteCampground()" class="btn btn-danger btn-large" >Delete Campground</button>    
+    </div>
+    <p><a href="/">Go Back Home</a></p>
+</div>
+
+<% include partials/footer %>
