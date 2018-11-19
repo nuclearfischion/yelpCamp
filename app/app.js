@@ -1,7 +1,9 @@
 //requirements and sets
 var express = require('express');
+var path = require('path');			//use views directory in different location than express default
 var app = express();
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, '../views'));
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());

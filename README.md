@@ -1,12 +1,12 @@
-# How to run
+# YelpCamp
+## How to run
 
 | #       | Description           | Command  |
 | :------------- |:-------------| :-----|
 | 1      | Run | `cd ${current.project.path}/app && node app.js` |
 
 ---
-# YelpCamp
-# GOAL 1
+## GOAL 1
 * Add Landing Page
 * Add Campgrounds Page that lists all campgrounds
 
@@ -14,40 +14,45 @@ Each Campground has:
 * Name
 * Image
 ---
-# GOAL 2
-## Layout and Basic Styling
+
+## GOAL 2
+### Layout and Basic Styling
 * Create our header and footer partials
 * Add in Bootstrap
 ---
-# GOAL 3
-## Creating New Campgrounds
+
+## GOAL 3
+### Creating New Campgrounds
 * Setup new campground POST route
 * Add in body-parser
 * Setup route to show form
 * Add basic unstyled form
 ---
-# GOAL 4
-## Style the campgrounds page
+
+## GOAL 4
+### Style the campgrounds page
 * Add a better header/title
 * Make campgrounds display in a grid
 ---
-# GOAL 5
-## Style the Navbar and Form
+
+## GOAL 5
+### Style the Navbar and Form
 * Add a navbar to all templates
 * Style the new campground form
 ---
-## Add Mongoose
+
+### Add Mongoose
 * Install and configure Mongoose
 * Setup campground model
 * Use campground model inside our routes
 
-## Show Page
+### Show Page
 * Review the RESTful routes we've seen so far
 * Add description to our campground model
 * Show db.collection.drop()                 //deletes every document in a collection
 * Add a show route/template
 
-## RESTFUL ROUTES
+### RESTFUL ROUTES
 
 | Name    | URL            |  Verb   |  Description                                      |
 | ---     | ---            | ---     | ---                                               |
@@ -60,24 +65,24 @@ Each Campground has:
 | destroy | /dogs/:id      |  DELETE |  Delete a particular dog, then redirect somewhere |
 
 ---
-# RESTful Routing
-## Introduction
+## RESTful Routing
+### Introduction
 * REST - a mapping between HTTP routes and CRUD
 
-# Refactor Mongoose Code
+### Refactor Mongoose Code
 * Create a models directory
 * Use module.exports
 * Require everything correctly!
 
-# Add Seeds File
+### Add Seeds File
 * Add a seeds.js file
 * Run the seeds file every time the server starts
 
-# Add the Comment model!
+### Add the Comment model!
 * Make our errors go away!
 * Display comments on campground show page
 
-# Comment New/Create
+### Comment New/Create
 * Discuss nested routes
     - comments need to be nested in campground routes
     
@@ -104,18 +109,15 @@ Each Campground has:
 * Add the comment new and create routes
 * Add the new comment form
 
-# Style Show Page
+### Style Show Page
 * Add sidebar to show page
 * Display comments nicely
 
-# Authentication
+### Finish Styling Show Page
+* Add public directory
+* Add custome stylesheet
 
-## Intro to Auth
-* What tools are we using?
-    * Passport.js
-    * Passport Local
-    * Passport Local Mongoose
-* Walk through auth flow
-* Discuss sessions
-    * Express-Session
+### Add User Model
+* Install all packages needed for auth
+* Define User model
 
