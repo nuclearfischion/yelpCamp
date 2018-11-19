@@ -1,8 +1,9 @@
 # How to run
 
-| #       | Description           | Command  |
-| :------------- |:-------------| :-----|
-| 1      | Run | `cd ${current.project.path}/app && node app.js` |
+1. Install MongoDB for your OS
+2. Run command 'mongod' to start Mongo background process
+3. Run command 'node app.js'
+4. Go to 'localhost:3000' in your browser to view app
 
 ---
 # YelpCamp
