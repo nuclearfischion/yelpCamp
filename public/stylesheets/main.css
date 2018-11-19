@@ -1,0 +1,43 @@
+    input[type="text"].borderless{
+        border: none;
+        outline: none;
+        width: 100%;
+    }
+    #userPic{
+        width: 30px;
+        height: 30px;
+    }
+    .row {
+      padding-right: 0px;
+      margin: 0px;
+    }
+    .imageWrapper{
+        position: relative;
+    }
+    .image{
+        position: relative;
+        margin: 0 !important;
+        width: 100%;
+    }
+    .price{
+        position: absolute;
+        padding: 1.5em;
+        background: white;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+    } 
+     
+    /*edit div stuff*/
+   #editContainer{
+       display: none;
+       position: relative;
+   }
+   .fas.fa-times{
+       position: absolute;
+       top: 0;
+       right:0;
+   }
+   .block{
+       display: block !important;
+   }

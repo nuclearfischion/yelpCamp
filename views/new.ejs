@@ -1,4 +1,7 @@
 <% include partials/header %>
+<script>
+    
+</script>
 
 <div class="container">
     <form action="/campgrounds" method="POST" >
@@ -9,14 +12,21 @@
                 <h2>Add New Campground</h2>
               
                 <!-- campground name -->
-                <label for="campName" class="text-left">Campground Name</label>
-                <input class="form-control form-group" id="campName" type="text" name="name" placeholder="Arbor Hills" >
-                
+                <div class="form-group">
+                    <div class="custom-file">
+                        <label for="campName" class="text-left">Campground Name</label>
+                        <input class="form-control" id="campName" type="text" name="name" placeholder="Arbor Hills" >
+                    </div>
+                </div>
               
                 <!-- Image -->
-                <label for="campPhoto">Campground Photo</label>
-                <input class="form-control form-group" id="campPhoto" type="text" name="image" placeholder="image.jpg">
-                
+                <div class="form-group">
+                    <div class="custom-file">
+                        <label class="text-left" for="campPhoto">Campground Photo</label>
+                        <input class="form-control" id="campPhoto" type="text" accept="/image/*" name="image" placeholder="image.jpg">
+                    </div>
+                </div>
+
                 <!-- Submit button -->
                 <input class="btn btn-default btn-block form-group" type="submit">
                 <a href="/campgrounds">Go Back</a>

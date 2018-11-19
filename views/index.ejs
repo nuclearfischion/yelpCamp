@@ -14,7 +14,7 @@
                     <a href="/campgrounds/<%= e.id %>/edit">
                         <img class="img-responsive" width="100%" src="<%= e.image %>">                
                     </a>
-                    <div class="caption"><h6><%= e.name %></h6></div>
+                    <div class="caption"><a href="/campgrounds/<%= e.id %>/edit"><%= e.name %></a></div>
                 </div>
             </div>
         <% }) %>
