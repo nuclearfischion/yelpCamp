@@ -6,7 +6,6 @@
 
 ---
 # YelpCamp
----
 # GOAL 1
 * Add Landing Page
 * Add Campgrounds Page that lists all campgrounds
@@ -95,7 +94,9 @@ Each Campground has:
     | DESTROY | /campgrounds/:id | DELETE (ajax request) |
     
     Comment Routes
-
+    
+    | Name   | URL                           | HTTP Verb                                      |
+    | ---    | ---                           | ---                                            |
     | INDEX  | /campgrounds/:id              | GET (displayed on each campground's SHOW page) |
     | NEW    | /campgrounds/:id/comments/new | GET                                            |
     | CREATE | /campgrounds/:id/comments     | POST                                           |
