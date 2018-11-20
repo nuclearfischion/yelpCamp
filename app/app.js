@@ -4,10 +4,16 @@ var path = require('path');			//use views directory in different location than e
 var app = express();
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, '../views'));
+//serve public directory
+let publicPath = path.join(__dirname + '/../public');
+app.use(express.static(publicPath));
+console.log("the public directory path: " + publicPath);
+//auth requirements
+var passport= require("passport");
+var LocalStrategy= require("passport-local");
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
 //express-fileupload stuff
@@ -19,20 +25,27 @@ var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
 
 //require your campground schema/model!
-var Campground = require("../models/campground");
+var Campground 	= require("../models/campground");
+var Comment 	= require("../models/comment");
+var User 		= require("../models/user");
 
-//require comment schema/model!
-let Comment = require("../models/comment");
+
+//passport configuration
+app.use(require("express-session")({
+	secret: "This can be anything. It's used to compute a hash for the session.",
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //require seeds file
 var seedDB = require("../seeds");
 seedDB();
-
-//serve public directory
-var path = require("path");
-let publicPath = path.join(__dirname + '/../public');
-app.use(express.static(publicPath));
-console.log("the directory name is: " + publicPath);
 
 //database of campgrounds STORED IN ARRAY; deprecated; moving everything to mongodb
 //let campgrounds = [];
@@ -89,12 +102,6 @@ app.put("/campgrounds/:campID", function(req, res){
 
 //CREATE    -   the app.get route is different than this app.post route despite sharing names
 app.post("/campgrounds", function(req, res){
-    //get data and push to campgrounds array
-//    let newCampground = {};
-//    newCampground.name = req.body.name;
-//    newCampground.image = req.body.image;
-//    console.log(newCampground);
-//    campgrounds.push(newCampground);
 
 //    console.log(req.files.campPhoto.name);
 
@@ -167,7 +174,25 @@ app.post("/campgrounds/:campID/comments", function(req, res){
     res.redirect("/campgrounds/" + campID + "/edit");
 });
 //******************************************END COMMENT ROUTES******************************************
+
+//******************************************AUTH ROUTES******************************************
+app.get("/register", function(req, res){
+	res.render("register");
+});
+app.post("/register", function(req, res){
+	var newUser = new User({username: req.body.username});
+	User.register(newUser, req.body.password, function(err, user){
+		if(err)
+			console.log("couldn't create new user!");
+		passport.authenticate("local")(req, res, function(){
+			res.redirect("/campgrounds");
+		});
+	});
+});
+//******************************************END AUTH ROUTES******************************************
+
+
 //listen!
 app.listen(3000, function () {
-  console.log('Yelp Camp is listening!');
+  console.log('Yelp Camp is listening at http://localhost:3000');
 });
