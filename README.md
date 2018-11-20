@@ -122,7 +122,11 @@ Each Campground has:
 * Install all packages needed for auth
 * Define User model
 
-### Pt. 2 - Add User Model
+### Pt. 2 - Register
 * Configure Passport
 * Add register routes
 * Add register template
+
+### Pt. 3 - Login
+* Add login routes
+* Add login template

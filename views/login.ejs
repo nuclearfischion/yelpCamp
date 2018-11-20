@@ -1,0 +1,35 @@
+<% include partials/header %>
+
+<div class="container">
+    <form action="/login" method="POST" >
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+        
+                <!-- Header -->
+                <h2>Login</h2>
+              
+                <!-- username -->
+                <div class="form-group">
+                    <div class="custom-file">
+                        <label for="username" class="text-left">Username</label>
+                        <input class="form-control" id="username" type="text" name="user[username]" placeholder="Username" >
+                    </div>
+                </div>
+              
+                <!-- password -->
+                <div class="form-group">
+                    <div class="custom-file">
+                        <label class="text-left" for="password">Password</label>
+                        <input class="form-control" id="password" type="password" name="user[password]" placeholder="password">
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <input class="btn btn-default btn-block form-group" type="submit" value="Login">
+                <a href="/campgrounds">Go Back</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<% include partials/footer %>

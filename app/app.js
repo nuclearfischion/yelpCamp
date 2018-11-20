@@ -14,7 +14,7 @@ var LocalStrategy= require("passport-local");
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 //express-fileupload stuff
 const fileUpload = require("express-fileupload");
@@ -176,6 +176,7 @@ app.post("/campgrounds/:campID/comments", function(req, res){
 //******************************************END COMMENT ROUTES******************************************
 
 //******************************************AUTH ROUTES******************************************
+//register
 app.get("/register", function(req, res){
 	res.render("register");
 });
@@ -188,6 +189,19 @@ app.post("/register", function(req, res){
 			res.redirect("/campgrounds");
 		});
 	});
+});
+
+//login
+app.get("/login", function(req, res){
+	res.render("login");
+});
+app.post("/login", passport.authenticate("local", 
+	{
+		successRedirect: "/campgrounds",
+		failureRedirect: "/login"
+	}), function(req, res){
+	console.log("logging in " + req.body.user.username);
+	res.send("attempting to login...");
 });
 //******************************************END AUTH ROUTES******************************************
 
