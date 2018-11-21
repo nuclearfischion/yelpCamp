@@ -9,8 +9,9 @@ let publicPath = path.join(__dirname + '/../public');
 app.use(express.static(publicPath));
 console.log("the public directory path: " + publicPath);
 //auth requirements
-var passport= require("passport");
-var LocalStrategy= require("passport-local");
+var passport 				= require("passport");
+var LocalStrategy 			= require("passport-local");
+var passportLocalMongoose   = require("passport-local-mongoose");
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -184,8 +185,10 @@ app.post("/register", function(req, res){
 	var newUser = new User({username: req.body.username});
 	User.register(newUser, req.body.password, function(err, user){
 		if(err)
-			console.log("couldn't create new user!");
+			res.send("couldn't create new user!");
+
 		passport.authenticate("local")(req, res, function(){
+			console.log("new user " + user.username + " created");
 			res.redirect("/campgrounds");
 		});
 	});
@@ -195,13 +198,18 @@ app.post("/register", function(req, res){
 app.get("/login", function(req, res){
 	res.render("login");
 });
-app.post("/login", passport.authenticate("local", 
+app.post("/login", 	passport.authenticate("local", 
 	{
 		successRedirect: "/campgrounds",
 		failureRedirect: "/login"
 	}), function(req, res){
-	console.log("logging in " + req.body.user.username);
-	res.send("attempting to login...");
+
+});
+
+//logout
+app.get("/logout", function(req, res){
+	req.logout();
+	res.redirect("/");
 });
 //******************************************END AUTH ROUTES******************************************
 

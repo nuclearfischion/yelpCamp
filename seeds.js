@@ -115,11 +115,11 @@ function seedDB(){
                                 else{
                                     //associate the createdComment with the createdCampground
                                     createdCampground.comments.push(createdComment);
-                                    createdCampground.save();
                                     console.log("added comment to: " + createdCampground.name);                                
                                 }
                             });
                         });
+                        createdCampground.save();
                     }
                 });
             });
