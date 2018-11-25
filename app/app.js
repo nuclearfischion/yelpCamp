@@ -34,8 +34,8 @@ var User 		= require("../models/user");
 //passport configuration
 app.use(require("express-session")({
 	secret: "This can be anything. It's used to compute a hash for the session.",
-	resave: false,
-	saveUninitialized: false
+	resave: true,
+	saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,6 +66,9 @@ app.get("/campgrounds", function(req, res){
         else
             res.render('index', {campgrounds: allCampgrounds });
     });
+
+    //show current logged in user
+    console.log(req.user);
 });
 //NEW   -   form page; sends data to app.post campgrounds
 app.get("/campgrounds/new", function(req, res){
@@ -144,7 +147,7 @@ app.delete("/campgrounds/:campID", function(req, res){
 
 //******************************************COMMENT ROUTES******************************************
 //app.get();
-app.post("/campgrounds/:campID/comments", function(req, res){
+app.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
     let campID = req.params.campID;
     let commentText = req.body.commentText;
     //[x] create comment
@@ -198,13 +201,40 @@ app.post("/register", function(req, res){
 app.get("/login", function(req, res){
 	res.render("login");
 });
-app.post("/login", 	passport.authenticate("local", 
-	{
-		successRedirect: "/campgrounds",
-		failureRedirect: "/login"
-	}), function(req, res){
+//asdfsldkfasdlkfjaslkdfjasldkfasd
+app.post('/login',
+  // wrap passport.authenticate call in a middleware function
+  function (req, res, next) {
+    // call passport authentication passing the "local" strategy name and a callback function
+    passport.authenticate('local', function (error, user, info) {
+      // this will execute in any case, even if a passport strategy will find an error
+      // log everything to console
+      console.log(error);
+      console.log(user);
+      console.log(info);
 
-});
+      if (error) {
+        res.status(401).send(error);
+      } else if (!user) {
+        res.status(401).send(info);
+      } else {
+      	req.login(user, function(err){
+      		if(err)
+  				console.log("couldn't log user in");
+  			else
+  				console.log("logged user in");
+      	});
+        next();
+      }
+
+      res.status(401).send(info);
+    })(req, res);
+  },
+
+  // function to call once successfully authenticated
+  function (req, res) {
+    res.redirect("/campgrounds");
+  });
 
 //logout
 app.get("/logout", function(req, res){
@@ -213,6 +243,14 @@ app.get("/logout", function(req, res){
 });
 //******************************************END AUTH ROUTES******************************************
 
+//middleware
+function isLoggedIn(req, res, next){
+	console.log("is authenticated = " + req.isAuthenticated());
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
 
 //listen!
 app.listen(3000, function () {

@@ -135,4 +135,6 @@ Each Campground has:
 * Add logout route
 * Prevent user from adding a comment if not signed in
 * Add links to navbar
+
+### Auth Pt. 5 - Show/Hide Links
 * Show/hide auth links correctly
