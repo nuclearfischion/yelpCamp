@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
+
 //mongoose setup
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
@@ -43,6 +44,12 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+//pass user data through every route
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+});
 
 //require seeds file
 var seedDB = require("../seeds");
@@ -209,9 +216,9 @@ app.post('/login',
     passport.authenticate('local', function (error, user, info) {
       // this will execute in any case, even if a passport strategy will find an error
       // log everything to console
-      console.log(error);
-      console.log(user);
-      console.log(info);
+      console.log("error: " + error);
+      console.log("user: " + user);
+      console.log("info: " + info);
 
       if (error) {
         res.status(401).send(error);
@@ -222,7 +229,7 @@ app.post('/login',
       		if(err)
   				console.log("couldn't log user in");
   			else
-  				console.log("logged user in");
+  				console.log("logged user in: " + user.username);
       	});
         next();
       }

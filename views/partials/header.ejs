@@ -10,7 +10,7 @@
     </head>
     <body>
     
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light pr-5">
   <a class="navbar-brand" href="/">YelpCamp</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -29,11 +29,13 @@
             Account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          if(no user logged in)
+          <% if(!currentUser){ %>
             <a class="dropdown-item" href="/login">Login</a>
             <a class="dropdown-item" href="/register">Sign Up</a>
-          else
+          <% } else { %>
+            <a class="dropdown-item btn disabled" href="/home">Hello <%= currentUser.username %></a>
             <a class="dropdown-item" href="/logout">Logout</a>
+          <% } %>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Help</a>
         </div>
