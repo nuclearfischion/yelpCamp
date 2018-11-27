@@ -138,3 +138,6 @@ Each Campground has:
 
 ### Auth Pt. 5 - Show/Hide Links
 * Show/hide auth links correctly
+
+### Refactor Routes
+* Use Express router to reorganize all routes
