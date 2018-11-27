@@ -44,3 +44,12 @@
    .dropdown-menu{
     min-width: 0 !important;
    }
+
+   /*footer stuff*/
+   .content{
+    min-height: calc(100vh - 200px);
+   }
+   footer{
+    height: 200px;
+    background-color: #9F8DA0;
+   }

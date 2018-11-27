@@ -1,10 +1,10 @@
 var express = require("express");
-var router  = express.Router();
+var router  = express.Router({mergeParams: true});
 
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
-//******************************************COMMENT ROUTES******************************************
+//POST - new comment
 router.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
     let campID = req.params.campID;
     let commentText = req.body.commentText;
@@ -35,7 +35,8 @@ router.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
     
     res.redirect("/campgrounds/" + campID + "/edit");
 });
-//******************************************END COMMENT ROUTES******************************************
+
+//TODO: update/delete comment routes?
 
 //middleware
 function isLoggedIn(req, res, next){

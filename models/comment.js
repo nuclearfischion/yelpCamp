@@ -3,7 +3,13 @@ let mongoose = require("mongoose");
 //schema
 let commentSchema = new mongoose.Schema({
     text: String,
-    author: { type: String, default: 'Anonymous' }
+    author: { 
+    	id: {
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: "User"
+    	},
+    	username: String
+	 }
 });
 
 //model

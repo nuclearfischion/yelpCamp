@@ -116,10 +116,11 @@ function seedDB(){
                                     //associate the createdComment with the createdCampground
                                     createdCampground.comments.push(createdComment);
                                     console.log("added comment to: " + createdCampground.name);                                
+                                    //TODO: fix parallel save error
+                                    createdCampground.save();
                                 }
                             });
                         });
-                        createdCampground.save();
                     }
                 });
             });
