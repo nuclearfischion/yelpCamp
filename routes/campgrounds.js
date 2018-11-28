@@ -16,16 +16,17 @@ router.get("/", function(req, res){
     //find all campgrounds and pass results to callback function
     Campground.find({}, function(err, allCampgrounds){
         if(err)
-            console.log("something has gone horribly, horribly wrong...");
+            console.log("could not find a campground");
         else
             res.render('index', {campgrounds: allCampgrounds });
     });
 
     //show current logged in user
-    console.log(req.user);
+    if(req.user)
+        console.log(req.user.username + " is visiting /campgrounds");
 });
 //NEW   -   form page; sends data to app.post campgrounds
-router.get("/new", function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     res.render("new.ejs");
 });
 //CREATE    -   the app.get route is different than this app.post route despite sharing names
@@ -94,5 +95,14 @@ router.delete("/:campID", function(req, res){
 
     res.send("got DELETE request");
 });
+
+//middleware
+function isLoggedIn(req, res, next){
+    console.log("is authenticated = " + req.isAuthenticated());
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;

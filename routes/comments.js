@@ -13,13 +13,19 @@ router.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
     //[x] push comment to found campground
     
     console.log("someone is trying to post a comment");
-    console.log("commentText: " + req.body.commentText);
+    // console.log("commentText: " + req.body.commentText);
     //create comment
     Comment.create({text: commentText}, function(err, createdComment){
         if(err)
             console.log("couldn't create comment in mongodb");
         else{
-            console.log("successfully added new comment to database!");
+            //add username and id to comment
+            createdComment.author.id = req.user.id;
+            createdComment.author.username = req.user.username;
+            createdComment.save();
+            console.log("added comment by user id: " + createdComment.author.id);
+            console.log("added comment by user: " + createdComment.author.username);
+            console.log("The author of this comment is " + req.user.username);
             //find campground
             Campground.findById(campID, function(err, retrievedCampground){
                 if(err)

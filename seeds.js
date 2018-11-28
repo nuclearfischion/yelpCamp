@@ -108,19 +108,19 @@ function seedDB(){
                         //add some comments after successfully creating campground
                         console.log("successfully created campground: " + createdCampground.name);
                         
-                        commentSeed.forEach(function(comment){
-                            Comment.create(comment, function(err, createdComment){
-                                if(err)
-                                    console.log("couldn't create comment :(");
-                                else{
-                                    //associate the createdComment with the createdCampground
-                                    createdCampground.comments.push(createdComment);
-                                    console.log("added comment to: " + createdCampground.name);                                
-                                    //TODO: fix parallel save error
-                                    createdCampground.save();
-                                }
-                            });
-                        });
+                        // commentSeed.forEach(function(comment){
+                        //     Comment.create(comment, function(err, createdComment){
+                        //         if(err)
+                        //             console.log("couldn't create comment :(");
+                        //         else{
+                        //             //associate the createdComment with the createdCampground
+                        //             createdCampground.comments.push(createdComment);
+                        //             console.log("added comment to: " + createdCampground.name);                                
+                        //             //TODO: fix parallel save error
+                        //             createdCampground.save();
+                        //         }
+                        //     });
+                        // });
                     }
                 });
             });
