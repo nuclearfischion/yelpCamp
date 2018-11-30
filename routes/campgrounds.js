@@ -30,14 +30,19 @@ router.get("/new", isLoggedIn, function(req, res){
     res.render("new.ejs");
 });
 //CREATE    -   the app.get route is different than this app.post route despite sharing names
-router.post("/", function(req, res){
+router.post("/", isLoggedIn, function(req, res){
 
 //    console.log(req.files.campPhoto.name);
 
     //try to create campground; pass either error or result into callback
     Campground.create({
         name: req.body.name,
-        image: req.body.image
+        image: req.body.image,
+        description: req.body.description,
+        author: {
+            id: req.user.id,
+            username: req.user.username
+        }
         },
         function(err, newlyCreated){
             if(err)
@@ -83,6 +88,7 @@ router.put("/:campID", function(req, res){
 
 //DELETE campgrounds
 router.delete("/:campID", function(req, res){
+    console.log("attempting to delete campground");
     let campID = req.params.campID;    
 
     //delete campground
