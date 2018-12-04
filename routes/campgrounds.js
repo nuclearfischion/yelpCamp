@@ -107,7 +107,7 @@ router.put("/:campID", checkCampgroundOwnership, function(req, res){
 
 //DELETE campgrounds
 //TODO: authorization! current user id must match campground author id
-router.delete("/:campID", function(req, res){
+router.delete("/:campID", checkCampgroundOwnership, function(req, res){
     console.log("attempting to delete campground");
     let campID = req.params.campID;    
 
@@ -147,18 +147,24 @@ function checkCampgroundOwnership(req, res, next){
                 console.log("couldn't find campground");
             }
             else{
+                console.log("checking if current user is campground author...");
                 // console.log("current user: " + req.user.username);
                 // console.log("campground author: " + retrievedCampground.author.username);
                 if(req.user.username == retrievedCampground.author.username){
                     console.log("yay, you can edit");
                     return next();     //stop further execution
                 }
+                else{
+                    console.log("you don't have permission to do that");
+                    res.status(400);
+                    res.send("don't let this dork edit/delete");
+                }
             }
         });
     }
     else{
         console.log("NO EDITING THIS CAMPGROUND FOR YOU");
-        res.redirect("/");
+        res.send("redirect this dork to the login screen");
     }
 }
 

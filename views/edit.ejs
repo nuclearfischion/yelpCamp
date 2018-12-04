@@ -5,9 +5,13 @@
 
         $.ajax({
             url: '/campgrounds/<%=campground._id%>',
+            contentType: 'application/json',
             type: 'DELETE',
             success: function(result) {
-                window.location.href="/campgrounds";
+                window.location.href="/login";
+            },
+            error: function(result) {
+                window.location.href="/";
             }
         });
 
@@ -70,8 +74,8 @@
     
     
         <div class="container-fluid mt-4 col-lg-5">
-            <!-- only render edit button/container if user is authorized -->
-            <% if(true){ %>
+            <!-- only render edit button/container if there is a current user AND user is authorized -->
+            <% if(currentUser && campground.author.username === currentUser.username){ %>
                 <!-- Edit button/container -->
                 <button onclick="toggleEdit()" class="fas fa-pencil-alt btn btn-light rounded-0"></button>
                 <div id="editContainer" class="container shadow-lg p-4">
