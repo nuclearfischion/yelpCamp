@@ -31,7 +31,6 @@ var Campground 	= require("../models/campground");
 var Comment 	= require("../models/comment");
 var User 		= require("../models/user");
 
-
 //passport configuration
 app.use(require("express-session")({
 	secret: "This can be anything. It's used to compute a hash for the session.",

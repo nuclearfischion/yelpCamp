@@ -149,3 +149,19 @@ Each Campground has:
 ### Users + Campgrounds
 * Prevent an unauthenticated user from creating a campground
 * Save username + id to newly created campground
+
+### Editing Campgrounds
+* Add Method-Override (currently using ajax requests)
+* Add Edit Route for Campgrounds (currently on same page as show page)
+* Add Link to Edit Page
+* Add Update Route
+* Fix $set problem
+
+### Deleting Campgrounds
+* Add Destroy Route
+* Add Delete Button
+
+### Authorization
+* User can only edit his/her campgrounds
+* User can only delete his/her campgrounds
+* Hide/Show edit and delete buttons

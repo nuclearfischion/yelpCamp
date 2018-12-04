@@ -58,6 +58,19 @@ router.post("/", isLoggedIn, function(req, res){
 
 //SHOW/EDIT  -   edit page for each campground site
 router.get("/:campID/edit", function(req, res){
+    //TODO: authorization
+    //if user is logged in
+        //check if user owns the campground; if yes, allow edit
+        //if not; show "NO EDITING PRIVILEGES"
+    //if not, redirect
+
+    // if(req.isAuthenticated())
+    //     console.log();
+    // else{
+    //     console.log("YOU NEED TO BE LOGGED IN TO EDIT/DELETE");
+    //     res.send("YOU NEED TO BE LOGGED IN TO EDIT/DELETE");
+    // }
+
     let campID = req.params.campID;
     //find campground andit populate comments, then render edit page
     Campground.findById(campID).populate('comments').exec(function(err, retrievedCampground){
@@ -71,22 +84,29 @@ router.get("/:campID/edit", function(req, res){
 });
 
 //UPDATE/PUT
-router.put("/:campID", function(req, res){
+//TODO: authorization! current user id must match campground author id
+router.put("/:campID", checkCampgroundOwnership, function(req, res){
+    console.log("hey you reached the put route");
     let campID = req.params.campID;
     
     console.log("app.put is receiving the campID of: " + req.body.name);
+    console.log("req.body is " + req.body);
+    console.log("req.data is " + req.data);
     
     Campground.findByIdAndUpdate(campID, { $set: req.body}, { new: true }, function(err){
-        if(err)
+        if(err){
             console.log("couldn't update campground");
-        else
-            return;
+        }
+        else{
+            console.log("updated campground");
+        }
+        res.send("updated");    
     });
-    res.send("campground edit page");
 });
 
 
 //DELETE campgrounds
+//TODO: authorization! current user id must match campground author id
 router.delete("/:campID", function(req, res){
     console.log("attempting to delete campground");
     let campID = req.params.campID;    
@@ -98,7 +118,6 @@ router.delete("/:campID", function(req, res){
         else
             console.log("campground deleted");
     });
-
     res.send("got DELETE request");
 });
 
@@ -109,6 +128,38 @@ function isLoggedIn(req, res, next){
         return next();
     }
     res.redirect("/login");
+}
+
+//is authorized
+function checkCampgroundOwnership(req, res, next){
+    console.log("checking if current user is authorized to edit/delete...");
+    
+    let campID = req.params.campID;
+    console.log("campground id: " + campID);
+
+    //if user is authenticated
+        //check if user is campground author
+    if(req.isAuthenticated()){
+        console.log("current user: " + req.user.username);
+        //find campground/author
+        Campground.findById(campID, function(err, retrievedCampground){
+            if(err){
+                console.log("couldn't find campground");
+            }
+            else{
+                // console.log("current user: " + req.user.username);
+                // console.log("campground author: " + retrievedCampground.author.username);
+                if(req.user.username == retrievedCampground.author.username){
+                    console.log("yay, you can edit");
+                    return next();     //stop further execution
+                }
+            }
+        });
+    }
+    else{
+        console.log("NO EDITING THIS CAMPGROUND FOR YOU");
+        res.redirect("/");
+    }
 }
 
 module.exports = router;
