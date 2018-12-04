@@ -161,7 +161,20 @@ Each Campground has:
 * Add Destroy Route
 * Add Delete Button
 
-### Authorization
+### Authorization Part 1: Campgrounds
 * User can only edit his/her campgrounds
 * User can only delete his/her campgrounds
 * Hide/Show edit and delete buttons
+
+### Editing Comments
+* Add Edit route for comments           [ ]
+* Add Edit button                       [x]
+    * added bootstrap dropdown menu to each comment. this needs to be styled.
+* Add Update route                      [ ]
+
+### Deleting Comments                   [ ]
+* Add Destroy route                     [ ]
+* Add Delete button                     [x]
+
+### Authorization Part 2: Comments      [ ]
+* User can only edit his/her comments   [ ]

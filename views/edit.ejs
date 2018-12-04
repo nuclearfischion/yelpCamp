@@ -129,6 +129,14 @@
                                 <h6 class="mb-0"><%=comment.author.username%></h6>
                                 <p class="mb-0"><%=comment.text%></p>
                             </div>
+                            <!-- edit comment -->
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Edit...</a>
+                                    <a class="dropdown-item" href="#">Delete...</a>
+                                </div>
+                            </div>
                         </div>
                     </div> 
                 <%});%>
