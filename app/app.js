@@ -60,7 +60,7 @@ var campgroundRoutes 	= require("../routes/campgrounds"),
 	indexRoutes 		= require("../routes/index");
 
 app.use("/campgrounds", campgroundRoutes);		//appends /campgrounds to campground routes
-app.use(commentRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 app.use(indexRoutes);
 
 //listen!

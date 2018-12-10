@@ -76,7 +76,7 @@ footer{
 }
 
 /*remove caret in comment edit/delete dropdown*/
-.dropdown-toggle::after{
+.noCaret.dropdown-toggle::after{
   content: none;
 }
 #dropdownMenuButton{

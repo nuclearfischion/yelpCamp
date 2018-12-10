@@ -74,8 +74,10 @@ router.get("/:campID/edit", function(req, res){
     let campID = req.params.campID;
     //find campground andit populate comments, then render edit page
     Campground.findById(campID).populate('comments').exec(function(err, retrievedCampground){
-        if(err)
+        if(err){
             console.log("couldn't find campground & populate comments");
+            res.redirect('back');
+        }
         else{
             console.log("found and populated " + retrievedCampground);
             res.render('edit', {campground: retrievedCampground});            

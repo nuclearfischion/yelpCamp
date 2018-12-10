@@ -5,8 +5,8 @@ var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
 //POST - new comment
-router.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
-    let campID = req.params.campID;
+router.post("/create", isLoggedIn, function(req, res){
+    let campID = req.params.id;
     let commentText = req.body.commentText;
     //[x] create comment
     //[x] find campground
@@ -43,6 +43,13 @@ router.post("/campgrounds/:campID/comments", isLoggedIn, function(req, res){
 });
 
 //TODO: update/delete comment routes?
+//edit form
+router.get("/:comment_id/edit", function(req, res){
+    let camp_id = req.params.id;
+    let commentText = req.body.commentText;
+
+    res.send("edit that comment!");
+});
 
 //middleware
 function isLoggedIn(req, res, next){
