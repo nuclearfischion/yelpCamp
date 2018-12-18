@@ -51,6 +51,28 @@ router.get("/:comment_id/edit", function(req, res){
     res.send("edit that comment!");
 });
 
+router.put("/:comment_id", function(req, res){
+    console.log("put route reached");
+    res.send("put route reached");
+});
+
+router.delete("/:comment_id", function(req, res){
+    comment_id = req.params.comment_id;
+    console.log("comment id: " + comment_id);
+    Comment.findByIdAndRemove(comment_id, function(err){
+        if(err)
+            console.log(err);
+        else
+            console.log("deleted comment!");
+    });
+
+    // TODO:
+    // if(commentNotFound)
+    //     res.status(400);
+    
+    res.send("comment delete route reached");
+});
+
 //middleware
 function isLoggedIn(req, res, next){
     console.log("is authenticated = " + req.isAuthenticated());

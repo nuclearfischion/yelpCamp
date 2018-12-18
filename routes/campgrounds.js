@@ -79,7 +79,7 @@ router.get("/:campID/edit", function(req, res){
             res.redirect('back');
         }
         else{
-            console.log("found and populated " + retrievedCampground);
+            // console.log("found and populated " + retrievedCampground);
             res.render('edit', {campground: retrievedCampground});            
         }
     });

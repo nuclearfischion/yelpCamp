@@ -83,4 +83,7 @@ footer{
   padding: 0;
   background: none;
   border: none;
+
+  position: absolute;
+  right: 0;
 }
