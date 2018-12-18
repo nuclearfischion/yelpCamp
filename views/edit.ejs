@@ -58,7 +58,7 @@
     var textDiv;
     var cancelMessage = document.createElement('p');
     $(cancelMessage).text("Press Esc to cancel.");
-    $(cancelMessage).addClass("cancelMessage mb-0");
+    $(cancelMessage).addClass("cancelMessage small mb-0");
     
     function editComment(commentId){
         //convert comment text div to text area
@@ -88,7 +88,28 @@
 
         if ($("textarea").is(":focus")){
             console.log("a text area is focused!");
-            console.log(document.activeElement);
+        }
+
+        if(evt.keyCode == 13 && $("textarea").is(":focus")){
+            console.log("YOU CAN SEND AN AJAX REQUEST");
+
+            //extract id from activeElement id
+            var commentDivId = document.activeElement.parentElement.id;
+            var commentId = commentDivId.split("_").pop();  //pop removes last element from an array and returns that element
+            console.log("activeElement: " + commentId);
+
+            //SEND THAT AJAX REQUEST HALLELUJAH
+            $.ajax({
+                url: '/campgrounds/<%=campground._id%>/comments/' + commentId,
+                contentType: 'application/json',
+                type: 'PUT',
+                success: function(result) {
+                    window.location.reload();
+                }, 
+                error: function(result) {
+                    window.location.href="/couldnt_reach";
+                }
+            });
         }
     });
 
@@ -109,12 +130,16 @@
 
     }
 
+    function textareaToParagraph(){
+       cancelMessage.remove();
+       $(".commentTextArea").contents().unwrap().wrap('<p class="mb-0"></p>');
+    }
+
     //listen for esc key press
     $(document).on('keyup',function(evt) {
         if (evt.keyCode == 27) {
-           console.log('Esc key pressed.');
-           cancelMessage.remove();
-           $(".commentTextArea").contents().unwrap().wrap('<p class="mb-0"></p>');
+            console.log('Esc key pressed.');
+            textareaToParagraph();
         }
     });    
 
