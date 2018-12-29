@@ -53,7 +53,18 @@ router.get("/:comment_id/edit", function(req, res){
 
 router.put("/:comment_id", function(req, res){
     console.log("put route reached");
-    res.send("put route reached");
+    let comment_id = req.params.comment_id;
+    let comment_newText = req.body.text;
+    console.log("req.body: " + JSON.stringify(req.body.text));
+    
+    Comment.findByIdAndUpdate(comment_id, {$set: {text: comment_newText}}, function(err, updatedComment){
+        if(err)
+            console.log(err);
+        else
+            console.log("HERE'S YOUR UPDATED COMMENT: " + updatedComment);    
+        res.send("put route reached");    
+    });
+    
 });
 
 router.delete("/:comment_id", function(req, res){

@@ -97,11 +97,13 @@
             var commentDivId = document.activeElement.parentElement.id;
             var commentId = commentDivId.split("_").pop();  //pop removes last element from an array and returns that element
             console.log("activeElement: " + commentId);
+	    var comment_text = document.activeElement.value;
 
             //SEND THAT AJAX REQUEST HALLELUJAH
             $.ajax({
                 url: '/campgrounds/<%=campground._id%>/comments/' + commentId,
                 contentType: 'application/json',
+		data: JSON.stringify({text: comment_text}),
                 type: 'PUT',
                 success: function(result) {
                     window.location.reload();
