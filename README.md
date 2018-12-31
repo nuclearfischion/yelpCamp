@@ -167,14 +167,17 @@ Each Campground has:
 * Hide/Show edit and delete buttons
 
 ### Editing Comments
-* Add Edit route for comments           [ ]
+* Add Edit route for comments           [x]
 * Add Edit button                       [x]
     * added bootstrap dropdown menu to each comment. this needs to be styled.
-* Add Update route                      [ ]
+* Add Update route                      [x]
 
 ### Deleting Comments                   [ ]
-* Add Destroy route                     [ ]
+* Add Destroy route                     [x]
 * Add Delete button                     [x]
 
-### Authorization Part 2: Comments      [ ]
-* User can only edit his/her comments   [ ]
+### Authorization Part 2: Comments          [x]
+* User can only edit his/her comments       [x]
+* User can only delete his/her comments     [x]
+* Hide/show edit and delete buttons         [x]
+* Refactor Middleware

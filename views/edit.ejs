@@ -156,6 +156,14 @@
             },
             error: function(result) {
                 window.location.href="/couldnt_reach";
+            },
+            statusCode: {
+                401: function(){
+                    window.location.href="/login";
+                },
+                403: function(){
+                    window.location.href="/not_your_comment_to_delete";
+                }
             }
         });
     }
@@ -240,13 +248,16 @@
                             </div>
                             <div class="col-sm p-1">
                             <!-- edit comment -->
-                            <div class="dropdown">
-                                <button class="btn btn-light dropdown-toggle noCaret" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <button class="dropdown-item" onClick="editComment('<%=comment.id%>')">Edit...</button>
-                                    <button class="dropdown-item" onClick="deleteComment('<%=comment.id%>')">Delete...</button>
+                            <!-- only render edit button/container if there is a current user AND user is authorized -->
+                            <% if(currentUser && comment.author.username === currentUser.username){ %>
+                                <div class="dropdown">
+                                    <button class="btn btn-light dropdown-toggle noCaret" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <button class="dropdown-item" onClick="editComment('<%=comment.id%>')">Edit...</button>
+                                        <button class="dropdown-item" onClick="deleteComment('<%=comment.id%>')">Delete...</button>
+                                    </div>
                                 </div>
-                            </div>
+                            <% } %>
                             <!-- end edit comment -->
                                 <h6 class="mb-0"><%=comment.author.username%></h6>
                                 <div id="comment_content_<%=comment.id%>" class="mb-0"><p class="mb-0"><%=comment.text%></p></div>
