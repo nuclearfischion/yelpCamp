@@ -123,14 +123,7 @@ router.delete("/:campID", checkCampgroundOwnership, function(req, res){
     res.send("got DELETE request");
 });
 
-//middleware
-function isLoggedIn(req, res, next){
-    console.log("is authenticated = " + req.isAuthenticated());
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
+
 
 //is authorized
 function checkCampgroundOwnership(req, res, next){
