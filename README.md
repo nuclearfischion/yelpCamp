@@ -180,4 +180,9 @@ Each Campground has:
 * User can only edit his/her comments       [x]
 * User can only delete his/her comments     [x]
 * Hide/show edit and delete buttons         [x]
-* Refactor Middleware
+* Refactor Middleware                       [x]
+
+### Adding in Flash!
+* Demo working version
+* Install and configure connect-flash
+* Add bootstrap alerts to header
