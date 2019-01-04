@@ -2,6 +2,7 @@ var express = require("express");
 var router  = express.Router();
 
 var Campground = require("../models/campground");
+var middleware = require("../middleware");  //including directory automatically includes index.js, where other related requirements should also live
 /***
 notes:
     * any reference to "app" refers to the express app object in app.js.
@@ -26,11 +27,11 @@ router.get("/", function(req, res){
         console.log(req.user.username + " is visiting /campgrounds");
 });
 //NEW   -   form page; sends data to app.post campgrounds
-router.get("/new", isLoggedIn, function(req, res){
+router.get("/new", middleware.isLoggedIn, function(req, res){
     res.render("new.ejs");
 });
 //CREATE    -   the app.get route is different than this app.post route despite sharing names
-router.post("/", isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
 
 //    console.log(req.files.campPhoto.name);
 
@@ -87,7 +88,7 @@ router.get("/:campID/edit", function(req, res){
 
 //UPDATE/PUT
 //TODO: authorization! current user id must match campground author id
-router.put("/:campID", checkCampgroundOwnership, function(req, res){
+router.put("/:campID", middleware.checkCampgroundOwnership, function(req, res){
     console.log("hey you reached the put route");
     let campID = req.params.campID;
     
@@ -109,7 +110,7 @@ router.put("/:campID", checkCampgroundOwnership, function(req, res){
 
 //DELETE campgrounds
 //TODO: authorization! current user id must match campground author id
-router.delete("/:campID", checkCampgroundOwnership, function(req, res){
+router.delete("/:campID", middleware.checkCampgroundOwnership, function(req, res){
     console.log("attempting to delete campground");
     let campID = req.params.campID;    
 
@@ -122,45 +123,5 @@ router.delete("/:campID", checkCampgroundOwnership, function(req, res){
     });
     res.send("got DELETE request");
 });
-
-
-
-//is authorized
-function checkCampgroundOwnership(req, res, next){
-    console.log("checking if current user is authorized to edit/delete...");
-    
-    let campID = req.params.campID;
-    console.log("campground id: " + campID);
-
-    //if user is authenticated
-        //check if user is campground author
-    if(req.isAuthenticated()){
-        console.log("current user: " + req.user.username);
-        //find campground/author
-        Campground.findById(campID, function(err, retrievedCampground){
-            if(err){
-                console.log("couldn't find campground");
-            }
-            else{
-                console.log("checking if current user is campground author...");
-                // console.log("current user: " + req.user.username);
-                // console.log("campground author: " + retrievedCampground.author.username);
-                if(req.user.username == retrievedCampground.author.username){
-                    console.log("yay, you can edit");
-                    return next();     //stop further execution
-                }
-                else{
-                    console.log("you don't have permission to do that");
-                    res.status(400);
-                    res.send("don't let this dork edit/delete");
-                }
-            }
-        });
-    }
-    else{
-        console.log("NO EDITING THIS CAMPGROUND FOR YOU");
-        res.send("redirect this dork to the login screen");
-    }
-}
 
 module.exports = router;

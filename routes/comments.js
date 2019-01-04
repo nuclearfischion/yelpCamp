@@ -1,11 +1,13 @@
 var express = require("express");
-var router  = express.Router({mergeParams: true});
+var router  = express.Router({mergeParams: true});  //allows you to access the params from the parent router (campgrounds)
 
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
+var middleware = require("../middleware");
+
 //POST - new comment
-router.post("/create", isLoggedIn, function(req, res){
+router.post("/create", middleware.isLoggedIn, function(req, res){
     let comment_id = req.params.id;
     let commentText = req.body.commentText;
     //[x] create comment
@@ -51,7 +53,7 @@ router.post("/create", isLoggedIn, function(req, res){
 //     res.send("edit that comment!");
 // });
 
-router.put("/:comment_id", checkCommentOwnership, function(req, res){
+router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     console.log("put route reached");
     let comment_id = req.params.comment_id;
     let comment_newText = req.body.text;
@@ -67,7 +69,7 @@ router.put("/:comment_id", checkCommentOwnership, function(req, res){
     
 });
 
-router.delete("/:comment_id", checkCommentOwnership, function(req, res){
+router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     comment_id = req.params.comment_id;
     console.log("comment id: " + comment_id);
     Comment.findByIdAndRemove(comment_id, function(err){
@@ -83,53 +85,5 @@ router.delete("/:comment_id", checkCommentOwnership, function(req, res){
     
     res.send("comment delete route reached");
 });
-
-//middleware
-function isLoggedIn(req, res, next){
-    console.log("is authenticated = " + req.isAuthenticated());
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
-
-//is authorized
-function checkCommentOwnership(req, res, next){
-    console.log("checking if current user is authorized to edit/delete...");
-    
-    let comment_id = req.params.comment_id;
-    console.log("comment id: " + comment_id);
-
-    //if user is authenticated
-        //check if user is comment author
-    if(req.isAuthenticated()){
-        console.log("current user: " + req.user.username);
-        //find comment/author
-        Comment.findById(comment_id, function(err, retrievedComment){
-            if(err){
-                console.log("couldn't find comment");
-            }
-            else{
-                console.log("checking if current user is comment author...");
-                // console.log("current user: " + req.user.username);
-                // console.log("comment author: " + retrievedComment.author.username);
-                if(req.user.username == retrievedComment.author.username){
-                    console.log("yay, you can edit");
-                    return next();     //stop further execution
-                }
-                else{
-                    console.log("you don't have permission to do that");
-                    res.status(403);    //forbidden
-                    res.send("don't let this dork edit/delete");
-                }
-            }
-        });
-    }
-    else{
-        console.log("NO EDITING THIS COMMENT FOR YOU");
-        res.status(401);    //unauthorized
-        res.send("redirect this dork to the login screen");
-    }
-}
 
 module.exports = router;
