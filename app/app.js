@@ -4,15 +4,18 @@ var path = require('path');			//use views directory in different location than e
 var app = express();
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, '../views'));
+
 //serve public directory
 let publicPath = path.join(__dirname + '/../public');
 app.use(express.static(publicPath));
 console.log("the public directory path: " + publicPath);
+
 //auth requirements
 var passport 				= require("passport");
 var LocalStrategy 			= require("passport-local");
 var passportLocalMongoose   = require("passport-local-mongoose");
 
+//body-parser
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -21,6 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
+//flash messages
+var flash = require("connect-flash");
+app.use(flash());
 
 //mongoose setup
 var mongoose = require("mongoose");
