@@ -51,8 +51,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //pass user data through every route
+//pass flash message through every route
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
+	res.locals.message = req.flash("message", "You gotta log in bro.");
 	next();
 });
 

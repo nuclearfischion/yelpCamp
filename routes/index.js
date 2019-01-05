@@ -26,11 +26,11 @@ router.post("/register", function(req, res){
 	});
 });
 
-//login
+//login form
 router.get("/login", function(req, res){
-	res.render("login");
+	res.render("login", {message: req.flash("errorMessage")});
 });
-//asdfsldkfasdlkfjaslkdfjasldkfasd
+//login post
 router.post('/login',
   // wrap passport.authenticate call in a middleware function
   function (req, res, next) {
@@ -71,14 +71,5 @@ router.get("/logout", function(req, res){
 	res.redirect("/");
 });
 //******************************************END AUTH ROUTES******************************************
-
-//middleware
-function isLoggedIn(req, res, next){
-	console.log("is authenticated = " + req.isAuthenticated());
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
 module.exports = router;
