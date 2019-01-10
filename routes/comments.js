@@ -18,8 +18,11 @@ router.post("/create", middleware.isLoggedIn, function(req, res){
     // console.log("commentText: " + req.body.commentText);
     //create comment
     Comment.create({text: commentText}, function(err, createdComment){
-        if(err)
+        if(err){
             console.log("couldn't create comment in mongodb");
+            req.flash("error", "Error! Your comment couldn't be created.");
+            res.redirect("/campgrounds/" + comment_id + "/edit");
+        }
         else{
             //add username and id to comment
             createdComment.author.id = req.user.id;
@@ -30,28 +33,22 @@ router.post("/create", middleware.isLoggedIn, function(req, res){
             console.log("The author of this comment is " + req.user.username);
             //find campground
             Campground.findById(comment_id, function(err, retrievedCampground){
-                if(err)
+                if(err){
                     console.log("failed to find campground to push comment to");
+                    res.redirect("/campgrounds/" + comment_id + "/edit");
+                }
                 else{
                     console.log("found campground to push comment to: " + retrievedCampground.name);
                     retrievedCampground.comments.push(createdComment);
                     retrievedCampground.save();
+                    req.flash("success", "Succes! Your comment was added to this thread.");
+                    res.redirect("/campgrounds/" + comment_id + "/edit");
                 }
             });
         }
     });
     
-    res.redirect("/campgrounds/" + comment_id + "/edit");
 });
-
-//TODO: update/delete comment routes?
-//edit form
-// router.get("/:comment_id/edit", function(req, res){
-//     let camp_id = req.params.id;
-//     let commentText = req.body.commentText;
-
-//     res.send("edit that comment!");
-// });
 
 router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     console.log("put route reached");
@@ -62,9 +59,11 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     Comment.findByIdAndUpdate(comment_id, {$set: {text: comment_newText}}, function(err, updatedComment){
         if(err)
             console.log(err);
-        else
-            console.log("HERE'S YOUR UPDATED COMMENT: " + updatedComment);    
-        res.send("put route reached");    
+        else{
+            console.log("HERE'S YOUR UPDATED COMMENT: " + updatedComment); 
+            req.flash("succes", "Success! You updated your comment.");   
+            res.send("comment put route reached");    
+        }
     });
     
 });

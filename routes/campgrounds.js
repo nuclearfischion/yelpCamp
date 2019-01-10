@@ -46,13 +46,18 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         }
         },
         function(err, newlyCreated){
-            if(err)
+            if(err){
+                req.flash("error", "There was a problem creating a new campground.");
                 console.log("couldn't create campground");
-            else
+            }
+            else{
+                req.flash("success", "You've added a new campground to our database.");
                 console.log("a new campground named " + req.body.name + " has been added to the database.");
+            }
         });
     
     //redirect back to /campgrounds page
+                req.flash("success", "You've added a new campground to our database.");
     res.redirect("/campgrounds");
     
 });
@@ -98,30 +103,37 @@ router.put("/:campID", middleware.checkCampgroundOwnership, function(req, res){
     
     Campground.findByIdAndUpdate(campID, { $set: req.body}, { new: true }, function(err){
         if(err){
+            req.flash("error", "Error! Your campground couldn't be updated.");
             console.log("couldn't update campground");
+            res.send("not updated");    
         }
         else{
+            req.flash("success", "Success! Your campground has been updated.");
             console.log("updated campground");
+            res.send("updated");    
         }
-        res.send("updated");    
     });
 });
 
 
 //DELETE campgrounds
-//TODO: authorization! current user id must match campground author id
 router.delete("/:campID", middleware.checkCampgroundOwnership, function(req, res){
     console.log("attempting to delete campground");
     let campID = req.params.campID;    
 
     //delete campground
     Campground.deleteOne({_id: campID}, function(err){
-        if(err)
+        if(err){
             console.log("problem deleting");
-        else
+            req.flash("error", "Error! This item couldn't be deleted.");
+            res.send("couldn't delete campground ");
+        }
+        else{
+            req.flash("success", "Success! You've deleted your campground from our database.");
             console.log("campground deleted");
+            res.send("got DELETE request");
+        }
     });
-    res.send("got DELETE request");
 });
 
 module.exports = router;

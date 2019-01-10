@@ -24,9 +24,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
 
-//flash messages
-var flash = require("connect-flash");
-app.use(flash());
 
 //mongoose setup
 var mongoose = require("mongoose");
@@ -36,6 +33,10 @@ mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
 var Campground 	= require("../models/campground");
 var Comment 	= require("../models/comment");
 var User 		= require("../models/user");
+
+//flash messages
+var flash = require("connect-flash");
+app.use(flash());
 
 //passport configuration
 app.use(require("express-session")({
@@ -50,11 +51,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//pass user data through every route
-//pass flash message through every route
+
+//pass user data to response object at every route
+//pass flash message to response object at every route
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
-	res.locals.message = req.flash("message", "You gotta log in bro.");
+	res.locals.success = req.flash("success");
+	// req.flash("success", "You did the thing!");
+	res.locals.error = req.flash("error");
+	// req.flash("error", "You did something very bad.");
 	next();
 });
 

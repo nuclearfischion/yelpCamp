@@ -16,11 +16,14 @@ router.get("/register", function(req, res){
 router.post("/register", function(req, res){
 	var newUser = new User({username: req.body.username});
 	User.register(newUser, req.body.password, function(err, user){
-		if(err)
-			res.send("couldn't create new user!");
+		if(err){
+      req.flash("error", "Error. " + err.message + ".");
+      res.redirect("/register");
+    }
 
-		passport.authenticate("local")(req, res, function(){
-			console.log("new user " + user.username + " created");
+    passport.authenticate("local")(req, res, function(){
+      console.log("new user " + user.username + " created");
+      req.flash("success", "Success! You just created your account. Welcome to YelpCamp, " + user.username + ".");
 			res.redirect("/campgrounds");
 		});
 	});
@@ -28,7 +31,7 @@ router.post("/register", function(req, res){
 
 //login form
 router.get("/login", function(req, res){
-	res.render("login", {message: req.flash("errorMessage")});
+	res.render("login");
 });
 //login post
 router.post('/login',
@@ -45,30 +48,37 @@ router.post('/login',
       if (error) {
         res.status(401).send(error);
       } else if (!user) {
-        res.status(401).send(info);
+        req.flash("error", "The information you entered doesn't match our records.");
+        // res.status(401).send(info);
       } else {
-      	req.login(user, function(err){
-      		if(err)
-  				console.log("couldn't log user in");
+        req.login(user, function(err){
+          if(err){
+  				  console.log("couldn't log user in");
+          }
   			else
   				console.log("logged user in: " + user.username);
       	});
         next();
       }
 
-      res.status(401).send(info);
+      // res.status(401).send(info);
+      res.redirect("/login");
     })(req, res);
   },
 
   // function to call once successfully authenticated
   function (req, res) {
+
+    req.flash("success", "You have logged in successfully. Welcome back, " + req.user.username + ".");
     res.redirect("/campgrounds");
   });
 
 //logout
 router.get("/logout", function(req, res){
 	req.logout();
-	res.redirect("/");
+
+  req.flash("success", "You have logged out successfully.");
+	res.redirect("/campgrounds");
 });
 //******************************************END AUTH ROUTES******************************************
 

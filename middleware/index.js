@@ -10,6 +10,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
+    req.flash("error", "You need to log in first.");
     res.redirect("/login");
 };
 
@@ -85,6 +86,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next){
     }
     else{
         console.log("NO EDITING THIS COMMENT FOR YOU");
+        req.flash("error", "You don't have permission to do that.");
         res.status(401);    //unauthorized
         res.send("redirect this dork to the login screen");
     }

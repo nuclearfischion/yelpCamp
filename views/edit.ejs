@@ -14,7 +14,7 @@
             contentType: 'application/json',
             type: 'DELETE',
             success: function(result) {
-                window.location.href="/login";
+                window.location.href="/campgrounds";
             },
             error: function(result) {
                 window.location.href="/";
@@ -103,7 +103,7 @@
             $.ajax({
                 url: '/campgrounds/<%=campground._id%>/comments/' + commentId,
                 contentType: 'application/json',
-		data: JSON.stringify({text: comment_text}),
+    	        data: JSON.stringify({text: comment_text}),
                 type: 'PUT',
                 success: function(result) {
                     window.location.reload();
