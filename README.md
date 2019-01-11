@@ -186,3 +186,8 @@ Each Campground has:
 * Demo working version
 * Install and configure connect-flash
 * Add bootstrap alerts to header
+
+### Update landing UI
+
+### Dynamic Prices
+
