@@ -38,6 +38,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     //try to create campground; pass either error or result into callback
     Campground.create({
         name: req.body.name,
+        price: req.body.price,
         image: req.body.image,
         description: req.body.description,
         author: {
@@ -98,8 +99,7 @@ router.put("/:campID", middleware.checkCampgroundOwnership, function(req, res){
     let campID = req.params.campID;
     
     console.log("app.put is receiving the campID of: " + req.body.name);
-    console.log("req.body is " + req.body);
-    console.log("req.data is " + req.data);
+    console.log("req.body is " + JSON.stringify(req.body));
     
     Campground.findByIdAndUpdate(campID, { $set: req.body}, { new: true }, function(err){
         if(err){

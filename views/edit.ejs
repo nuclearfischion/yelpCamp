@@ -27,10 +27,12 @@
         console.log("saving edits");
         
         let campNameValue = document.getElementById("campName").value;
+        let campPriceValue = document.getElementById("campPrice").value;
         let campImageValue = document.getElementById("campImage").value;
         let campDescriptionValue = document.getElementById("campDescription").value;
         
         let editedCampground = {name: campNameValue,
+                                price: campPriceValue,
                                 image: campImageValue,
                                 description: campDescriptionValue};
         
@@ -203,10 +205,20 @@
                     <!-- Header -->
                     <h3>Edit Campground Details</h3>
                     <button onclick="hideEdit()" class="fas fa-times btn btn-light rounded-0"></button>
+                    
                     <!-- Edit Name -->
                     <div class="form-group">
                         <label for="campName">Name</label>
                         <input class="form-control form-group" id="campName" type="text" name="name" value="<%=campground.name%>" >
+                        <!-- 
+                            <button onclick="saveChanges()" class="btn btn-dark btn-large">Save Changes</button>
+                        -->
+                    </div>
+
+                    <!-- Edit Price -->
+                    <div class="form-group">
+                        <label for="campPrice">Price</label>
+                        <input class="form-control form-group" id="campPrice" type="number" name="price" value="<%=campground.price%>" min="0.01" step="0.01">
                         <!-- 
                             <button onclick="saveChanges()" class="btn btn-dark btn-large">Save Changes</button>
                         -->
