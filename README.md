@@ -1,5 +1,5 @@
 # YelpCamp
-## How to run
+## Preview
 See it live: https://ancient-sierra-33799.herokuapp.com/
 
 ---
