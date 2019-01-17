@@ -1,5 +1,9 @@
 # YelpCamp
 ## How to run
+See it live: https://ancient-sierra-33799.herokuapp.com/
+
+---
+## How to run
 
 1. Install MongoDB for your OS
 2. Run command 'mongod' to start Mongo background process
