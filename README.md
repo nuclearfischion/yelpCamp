@@ -189,5 +189,57 @@ Each Campground has:
 
 ### Update landing UI
 
-### Dynamic Prices
+### Dynamic Prices                          [x]
 
+## Git
+### Introduction
+* What is Git?
+* What is Github?
+* Why shoould you care?
+* Novel Writing Analogy
+* Installing Git
+
+### Git Basics
+* Git init      - create a new git repo; 
+* Git status    - check tracked/untracked files (tracked files have the history of their contents recorded while untracked files do not)
+* Git add       - track files that will be part of the next commit (files should be grouped appropriately for respective commits)
+* Git commit    - 
+
+### Git Checkout
+* Git Log       - see previous commits
+* Git Checkout  - git checkout [commit hash] takes you back to previous commit (this unnamed branch is called a detached HEAD)
+
+### Ways to revert
+* git reset --hard [commit hash]  (destroys uncommitted work)
+* git revert [commit hash]  (does not destroy uncommitted work) 
+    - (creates a new commit whereas checkout/reset moves HEAD back to previous commit)
+    - reverting has 2 important advantages over reset
+        + doesn't change project history, which makes it "safe"
+        + because it doesn't delete previous commits, you can revert backwards/forwards to any arbitrary commit
+* git revert --no-commit [commit hash]..HEAD
+
+### Git amend
+* git commit --amend -m "an updated commit message" (amends the most recent commit)
+* forget to add a file to staging area before a commit? then stage the file you want to add, then type "git commit --amend --no-edit"
+
+### Cloning and Github Intro
+* What is Github            - 
+* Cloning an existing repo  - 
+
+### Pushing to Github
+* Creating a repo on github
+* Adding a remote
+* Pushing to github
+
+## Deploying
+* Rent out server space to host your Express application
+* Heroku and AWS are both popular environments for hosting your Express app 
+    - Download heroku
+    - type 'heroku login' into command line
+    - login with credentials
+    - run 'git status'
+    - initialize heroku directory with 'git init'
+    - push your local repo upstream to heroku master
+    - type 'heroku logs' to see errors
+    - add start script to package.json
+        + under "scripts", add "start": "node app/app.js"
